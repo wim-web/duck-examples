@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "01_vss"
+		},
+		{
+			"path": "02_fts"
+		}
+	],
+	"settings": {}
+}

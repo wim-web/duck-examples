@@ -56,22 +56,24 @@ PRAGMA create_fts_index(
 query = "いい 天気"
 tok_query = tokenize(query)
 sql = """
+WITH scored AS (
+    SELECT
+        id,
+        text,
+        fts_main_docs.match_bm25(
+            id,
+            ?,
+            fields := 'tok'
+        ) AS score
+    FROM docs
+)
 SELECT
     id,
     text,
     score
-FROM (
-    SELECT
-        *,
-        fts_main_docs.match_bm25(
-            id,             -- ドキュメント識別子
-            ?,              -- トークン化済みクエリ文字列
-            fields := 'tok' -- インデックス化したカラム名（省略可）
-        ) AS score
-    FROM docs
-) sq
+FROM scored
 WHERE score IS NOT NULL
-ORDER BY score DESC
+ORDER BY score DESC;
 """
 results = conn.execute(sql, (tok_query,)).fetchall()
 

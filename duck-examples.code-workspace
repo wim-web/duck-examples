@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "02_fts"
+		},
+		{
+			"path": "03_rerank"
 		}
 	],
 	"settings": {}
